@@ -6,6 +6,10 @@
 <title>Business IA | Automação Comercial Inteligente</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  html {
+    scroll-padding-top: 70px;
+  }
+
   :root {
     --dark:      #060d08;
     --dark-2:    #091410;
@@ -40,19 +44,20 @@
   .nav {
     position: fixed;
     top: 0; left: 0; right: 0;
-    z-index: 100;
+    z-index: 200;
     padding: 16px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: background 0.3s, padding 0.3s;
+    background: var(--dark);
+    border-bottom: 1px solid transparent;
+    transition: padding 0.3s, border-color 0.3s, box-shadow 0.3s;
   }
 
   .nav.scrolled {
-    background: rgba(6,13,8,0.92);
-    backdrop-filter: blur(12px);
     padding: 12px 24px;
     border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
   }
 
   .nav-logo {
@@ -129,13 +134,18 @@
     display: none;
     position: fixed;
     inset: 0;
-    top: 65px;
-    background: rgba(6,13,8,0.97);
-    backdrop-filter: blur(16px);
-    z-index: 99;
+    top: 0;
+    padding-top: 72px;
+    background: rgba(6,13,8,0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 98;
     flex-direction: column;
-    padding: 40px 32px;
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-bottom: 40px;
     gap: 32px;
+    overflow-y: auto;
   }
 
   .mobile-menu.open { display: flex; }
@@ -560,10 +570,17 @@
   .sophia-section { background: var(--dark-3); }
 
   .sophia-inner {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
     margin-top: 36px;
+  }
+
+  @media (min-width: 768px) {
+    .sophia-inner {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
   }
 
   .sophia-card {
@@ -662,10 +679,7 @@
 
   .chat-label.sophia-label { color: var(--green); }
 
-  @media (min-width: 768px) {
-    .sophia-inner { flex-direction: row; }
-    .sophia-card, .sophia-visual { flex: 1; }
-  }
+
 
   /* ---- BENEFITS ---- */
   .benefits-section { background: var(--dark-2); }
@@ -1062,6 +1076,125 @@
     .cta-section { padding-left: calc(50vw - 460px); padding-right: calc(50vw - 460px); }
   }
 
+
+  /* ── ANIMAÇÕES DE ENTRADA (CSS puro, sem JS de visibilidade) ── */
+
+  /* Glow pulsante no botão CTA */
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 8px 40px rgba(37,211,102,0.4); }
+    50%       { box-shadow: 0 8px 56px rgba(37,211,102,0.7); }
+  }
+  .cta-btn { animation: glowPulse 3s ease-in-out infinite; }
+
+  /* Float suave no badge hero */
+  @keyframes floatY {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-6px); }
+  }
+
+  /* Balões do chat da Sophia aparecem em sequência */
+  .sophia-visual > div {
+    animation: chatAppear 0.4s ease both;
+  }
+  .sophia-visual > div:nth-child(1) { animation-delay: 0.1s; }
+  .sophia-visual > div:nth-child(2) { animation-delay: 0.5s; }
+  .sophia-visual > div:nth-child(3) { animation-delay: 0.9s; }
+  .sophia-visual > div:nth-child(4) { animation-delay: 1.3s; }
+  .sophia-visual > div:nth-child(5) { animation-delay: 1.7s; }
+  .sophia-visual > div:nth-child(6) { animation-delay: 2.1s; }
+  .sophia-visual > p { animation: chatAppear 0.3s ease both; }
+
+  @keyframes chatAppear {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Pain cards entram com leve fade */
+  .pain-card {
+    animation: fadeCard 0.5s ease both;
+  }
+  .pain-grid > .pain-card:nth-child(1) { animation-delay: 0.05s; }
+  .pain-grid > .pain-card:nth-child(2) { animation-delay: 0.12s; }
+  .pain-grid > .pain-card:nth-child(3) { animation-delay: 0.19s; }
+  .pain-grid > .pain-card:nth-child(4) { animation-delay: 0.26s; }
+  .pain-grid > .pain-card:nth-child(5) { animation-delay: 0.33s; }
+  .pain-grid > .pain-card:nth-child(6) { animation-delay: 0.40s; }
+
+  /* Benefit cards */
+  .benefit-card {
+    animation: fadeCard 0.5s ease both;
+  }
+  .benefits-grid > .benefit-card:nth-child(1) { animation-delay: 0.05s; }
+  .benefits-grid > .benefit-card:nth-child(2) { animation-delay: 0.15s; }
+  .benefits-grid > .benefit-card:nth-child(3) { animation-delay: 0.25s; }
+  .benefits-grid > .benefit-card:nth-child(4) { animation-delay: 0.35s; }
+  .benefits-grid > .benefit-card:nth-child(5) { animation-delay: 0.45s; }
+  .benefits-grid > .benefit-card:nth-child(6) { animation-delay: 0.55s; }
+
+  @keyframes fadeCard {
+    from { opacity: 0.4; transform: translateY(16px); }
+    to   { opacity: 1;   transform: translateY(0); }
+  }
+
+  /* Steps da metodologia deslizam da esquerda */
+  .step-item {
+    animation: slideLeft 0.45s ease both;
+  }
+  .steps-list > .step-item:nth-child(1) { animation-delay: 0.1s; }
+  .steps-list > .step-item:nth-child(2) { animation-delay: 0.2s; }
+  .steps-list > .step-item:nth-child(3) { animation-delay: 0.3s; }
+  .steps-list > .step-item:nth-child(4) { animation-delay: 0.4s; }
+  .steps-list > .step-item:nth-child(5) { animation-delay: 0.5s; }
+
+  @keyframes slideLeft {
+    from { opacity: 0.3; transform: translateX(-20px); }
+    to   { opacity: 1;   transform: translateX(0); }
+  }
+
+  /* Case cards */
+  .case-card {
+    animation: fadeCard 0.5s ease both;
+  }
+  .cases-list > .case-card:nth-child(1) { animation-delay: 0.1s; }
+  .cases-list > .case-card:nth-child(2) { animation-delay: 0.2s; }
+  .cases-list > .case-card:nth-child(3) { animation-delay: 0.3s; }
+  .cases-list > .case-card:nth-child(4) { animation-delay: 0.4s; }
+
+  /* Audience cards escalam */
+  .audience-card {
+    animation: scaleUp 0.4s ease both;
+  }
+  .audience-grid > .audience-card:nth-child(1) { animation-delay: 0.05s; }
+  .audience-grid > .audience-card:nth-child(2) { animation-delay: 0.15s; }
+  .audience-grid > .audience-card:nth-child(3) { animation-delay: 0.25s; }
+  .audience-grid > .audience-card:nth-child(4) { animation-delay: 0.35s; }
+
+  @keyframes scaleUp {
+    from { opacity: 0.5; transform: scale(0.93); }
+    to   { opacity: 1;   transform: scale(1); }
+  }
+
+  /* Result strip items */
+  .result-item {
+    animation: fadeCard 0.5s ease both;
+  }
+  .results-strip > .result-item:nth-child(1) { animation-delay: 0.1s; }
+  .results-strip > .result-item:nth-child(2) { animation-delay: 0.3s; }
+  .results-strip > .result-item:nth-child(3) { animation-delay: 0.5s; }
+
+  /* Sophia halves */
+  .sophia-card    { animation: slideLeft   0.5s 0.1s ease both; }
+
+  /* Proc steps */
+  .proc-step {
+    animation: slideLeft 0.45s ease both;
+  }
+  .process-steps > .proc-step:nth-child(1) { animation-delay: 0.1s; }
+  .process-steps > .proc-step:nth-child(2) { animation-delay: 0.2s; }
+  .process-steps > .proc-step:nth-child(3) { animation-delay: 0.3s; }
+  .process-steps > .proc-step:nth-child(4) { animation-delay: 0.4s; }
+
+
 </style>
 </head>
 <body>
@@ -1340,31 +1473,36 @@
     </div>
 
     <div class="sophia-visual">
-      <p class="sophia-visual-label">Exemplo de conversa</p>
+      <p class="sophia-visual-label">Exemplo — quebra de objeção</p>
+
+      <div style="align-self:flex-end;">
+        <p class="chat-label" style="text-align:right">Você · agora</p>
+        <div class="chat-bubble user">Parece interessante, mas achei caro pra minha realidade no momento.</div>
+      </div>
 
       <div>
         <p class="chat-label sophia-label">Sophia · agora</p>
-        <div class="chat-bubble sophia">Olá! Sou a Sophia, assistente virtual da Business IA. 👋 Me conta um pouco sobre o seu negócio — qual segmento você atua?</div>
+        <div class="chat-bubble sophia">Faz sentido essa preocupação! Posso te perguntar uma coisa? Quantos leads você recebe por mês — e quantos sua equipe consegue atender em até 5 minutos?</div>
       </div>
 
       <div style="align-self:flex-end;">
         <p class="chat-label" style="text-align:right">Você · agora</p>
-        <div class="chat-bubble user">Tenho uma clínica odontológica, recebo muitos leads mas a recepção não consegue atender todos</div>
+        <div class="chat-bubble user">Umas 200 mensagens por mês. Mas honestamente a equipe atende uns 60, 70%.</div>
       </div>
 
       <div>
         <p class="chat-label sophia-label">Sophia · agora</p>
-        <div class="chat-bubble sophia">Entendo! Esse é um cenário muito comum em clínicas. 🦷 Já implantamos soluções exatamente pra isso — atendimento 24h, qualificação automática e agendamento sem sobrecarregar sua recepção. Posso te mostrar como funcionou na prática?</div>
+        <div class="chat-bubble sophia">Ou seja, todo mês cerca de 60 leads ficam sem resposta rápida — e provavelmente vão pra concorrência. 💡 O sistema atende os 200 em segundos. O retorno costuma aparecer já no primeiro mês. Faz sentido olhar como investimento?</div>
       </div>
 
       <div style="align-self:flex-end;">
         <p class="chat-label" style="text-align:right">Você · agora</p>
-        <div class="chat-bubble user">Sim, me fala mais!</div>
+        <div class="chat-bubble user">Colocando assim, faz sentido sim. Como funciona o diagnóstico?</div>
       </div>
 
       <div>
         <p class="chat-label sophia-label">Sophia · agora</p>
-        <div class="chat-bubble sophia">Ótimo! Vou te passar o case da Odonto Poleza Style, uma clínica aqui em SC com resultado similar ao seu cenário. E se quiser, já posso agendar um diagnóstico gratuito de 30 minutos com a equipe. 📅</div>
+        <div class="chat-bubble sophia">São 30 minutos online, gratuito e sem compromisso. A equipe analisa sua operação e mostra o que implementaria pra você. Posso verificar os horários disponíveis agora? 📅</div>
       </div>
     </div>
   </div>
@@ -1513,7 +1651,7 @@
             +55 47 9618-5229
           </a>
         </li>
-        <li><a href="mailto:agenciabusinessia1@gmail.com">agenciabusinessia1@gmail.com</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#1776707279747e767562647e797264647e762657707a767e7b3974787a"><span class="__cf_email__" data-cfemail="98f9fffdf6fbf1f9faedebf1f6fdebebf1f9a9d8fff5f9f1f4b6fbf7f5">[email&#160;protected]</span></a></li>
         <li><a href="https://www.instagram.com/agenciabusinessia/" target="_blank">@agenciabusinessia</a></li>
       </ul>
     </div>
@@ -1535,7 +1673,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Navbar scroll
   const nav = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
@@ -1543,17 +1681,4 @@
   });
 
   // Mobile menu
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-
-  hamburger.addEventListener('click', () => {
-    mobileMenu.classList.toggle('open');
-  });
-
-  function closeMenu() {
-    mobileMenu.classList.remove('open');
-  }
-</script>
-
-</body>
-</html>
+  const hamburger = document.getElementById('ham
